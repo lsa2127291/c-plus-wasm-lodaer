@@ -47,7 +47,7 @@ var ASM_Memory = (function () {
             throw new Error("Address & value must be a number!");
         }
         type = (this.sizeList[addr] || type);
-        this.mem[type][addr / this.mem[type].BYTES_PER_ELEMENT] = value;
+        this.mem[type][Math.floor(addr / this.mem[type].BYTES_PER_ELEMENT)] = value;
         return this;
     };
     ASM_Memory.prototype.get = function (addr, type) {
@@ -56,12 +56,12 @@ var ASM_Memory = (function () {
             throw new Error("Address must be a number!");
         }
         type = (this.sizeList[addr] || type);
-        return this.mem[type][addr / this.mem[type].BYTES_PER_ELEMENT];
+        return this.mem[type][Math.floor(addr / this.mem[type].BYTES_PER_ELEMENT)];
     };
     ASM_Memory.prototype.avail = function (type) {
         if (type === void 0) { type = 40; }
         var totalBytes = (this.allocList.filter(function (l) { return l; }).length - this.mem.char.byteLength);
-        return totalBytes / this.mem[type].BYTES_PER_ELEMENT;
+        return Math.floor(totalBytes / this.mem[type].BYTES_PER_ELEMENT);
     };
     ASM_Memory.prototype.struct = function (values, type, nested) {
         var _this = this;
@@ -87,7 +87,7 @@ var ASM_Memory = (function () {
         refs._keys = values.filter(function (k, i) { return i % 2 === 0; });
         refs._totalLength = sizeof;
         var magicKeys = ["_addr", "_length", "_totalLength", "_keys", "_up"];
-        values.forEach(function (i) {
+        values.forEach(function (k, i) {
             if (i % 2 === 0) {
                 if (typeof values[i] !== "string") {
                     e();
@@ -183,7 +183,7 @@ var ASM_Memory = (function () {
         };
         if (Array.isArray(addr)) {
             addr.forEach(function (a) {
-                _this.mem[type][a / _this.mem[type].BYTES_PER_ELEMENT] = 0;
+                _this.mem[type][Math.floor(a / _this.mem[type].BYTES_PER_ELEMENT)] = 0;
             });
             freeAlloc(addr[0], addr[addr.length - 1] + this.mem[type].BYTES_PER_ELEMENT);
         }
