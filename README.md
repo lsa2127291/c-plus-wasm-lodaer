@@ -20,7 +20,7 @@ Load C/C++ source files directly into javascript with a zero bloat.
 
 ## Installation
 1. Install Emscripten following the instructions [here](https://kripken.github.io/emscripten-site/docs/getting_started/downloads.html).
-2. Run `npm i cpp-plus-wasm-loader --save-dev`.
+2. Run `npm i c-plus-wasm-loader --save-dev`.
 3. Add this object to the `rules` section of your webpack build:
 ```js
 {
