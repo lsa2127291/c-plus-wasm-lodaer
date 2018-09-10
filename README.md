@@ -26,7 +26,7 @@ Load C/C++ source files directly into javascript with a zero bloat.
 {
 	test: /\.(c|cpp)$/,
 	use: {
-		loader: 'cpp-wasm-loader'
+		loader: 'c-plus-wasm-loader'
 	}
 }
 ```
@@ -43,7 +43,7 @@ The webpack loader has several options, all of them optional:
 {
 	test: /\.(c|cpp)$/,
 	use: {
-		loader: 'cpp-wasm-loader',
+		loader: 'c-plus-wasm-loader',
 		options: {
 			// emccFlags: (existingFlags: string[], mode?: "wasm"|"asmjs" ) => string[],
 			// emccPath: String,
