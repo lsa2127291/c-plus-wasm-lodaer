@@ -1,4 +1,5 @@
 const wasm = require("./add.c");
+const helloWasm = require("./hello.c")
 wasm.init().then(function(mod) {
     const memory = mod.memoryManager
     const arr = memory.malloc(20, 'i32')
@@ -9,3 +10,9 @@ wasm.init().then(function(mod) {
         console.log(mod.exports.get(arr[i]))
     }
 });
+helloWasm.init(env => {
+    console.log(env)
+    return env
+}).then(function () {
+
+})
