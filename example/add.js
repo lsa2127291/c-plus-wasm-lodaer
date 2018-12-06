@@ -1,5 +1,4 @@
-const wasm = require("./add.c");
-const helloWasm = require("./hello.c")
+import wasm from './hello.c?embed=./add.c,./add1.c'
 wasm.init().then(function(mod) {
     const memory = mod.memoryManager
     const arr = memory.malloc(20, 'i32')
@@ -7,12 +6,12 @@ wasm.init().then(function(mod) {
         memory.set(arr[i], 20 + i, 'i32')
     }
     for (let i = 0; i < 10; i++) {
-        console.log(mod.exports.get(arr[i]))
+        console.log(mod.exports.get1(arr[i]))
     }
 });
-helloWasm.init(env => {
-    console.log(env)
-    return env
-}).then(function () {
+// helloWasm.init(env => {
+//     console.log(env)
+//     return env
+// }).then(function () {
 
-})
+// })

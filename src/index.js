@@ -370,18 +370,29 @@ function buildModule(wasmEnv, asmjsEnv, asmJSCode, asmjsMem, fetchFiles, wasmFil
 	}`;
 }
 
-function createBuildWasmName(resource, content) {
-	const fileName = path.basename(resource, path.extname(resource));
-	return `${fileName}-${md5(content)}.wasm`;
+async function createBuildWasmName(resourcePaths, content) {
+	// const fileName = path.basename(resource, path.extname(resource));
+	const contents = await Promise.all(resourcePaths.map(resourcePath => readFile(resourcePath)))
+	return `index-${md5([content, ...contents].toString())}.wasm`;
+}
+
+function getResourcePaths(resourcePath, resourceQuery) {
+	const paths = [];
+	paths.push(resourcePath)
+	const params = resourceQuery.split('embed=');
+	params[params.length - 1].split(',').forEach(file => {
+		paths.push(path.resolve('./', file))
+	});
+	return paths;
 }
 
 exports.default = async function loader(content) {
 	let cb = this.async();
 	// let folder = null;
-
-	const wasmBuildName = createBuildWasmName(this.resourcePath, content);
+	const resourcePaths = getResourcePaths(this.resourcePath, this.resourceQuery);
+	const wasmBuildName = await createBuildWasmName(resourcePaths, content);
+	console.log('wasmBuildName', wasmBuildName)
 	const indexFile = wasmBuildName.replace('.wasm', '.js');
-
 	try {
 		const options = (0, _options.loadOptions)(this);
 
@@ -469,9 +480,9 @@ exports.default = async function loader(content) {
 		let wasmHex = [];
 		let wasmEnv = "";
 		let wasmContent = "";
-		let wasmFileName = this.resourcePath.split(/\\|\//gmi).pop().split(".").shift() + ".wasm";
+		let wasmFileName = "index.wasm";
 		if (buildWASM) {
-			let wasmFlags = [this.resourcePath, '-s', 'WASM=1', "-s", "BINARYEN=1", this.minimize ? "-Os" : "-O1"];
+			let wasmFlags = [...resourcePaths, '-s', 'WASM=1', '-s', `TOTAL_MEMORY=${options.totalMemory || '16777216'}`, "-s", "BINARYEN=1", this.minimize ? "-Os" : "-O1"];
 
 			if (options.emccFlags && typeof options.emccFlags === "function") {
 				wasmFlags = options.emccFlags(wasmFlags, "wasm");
