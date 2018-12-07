@@ -378,10 +378,12 @@ async function createBuildWasmName(resourcePaths, content) {
 
 function getResourcePaths(resourcePath, resourceQuery) {
 	const paths = [];
-	paths.push(resourcePath)
+	paths.push(resourcePath);
 	const params = resourceQuery.split('embed=');
 	params[params.length - 1].split(',').forEach(file => {
-		paths.push(path.resolve('./', file))
+		if (file) {
+			paths.push(path.resolve('./', file))
+		}
 	});
 	return paths;
 }
@@ -391,7 +393,6 @@ exports.default = async function loader(content) {
 	// let folder = null;
 	const resourcePaths = getResourcePaths(this.resourcePath, this.resourceQuery);
 	const wasmBuildName = await createBuildWasmName(resourcePaths, content);
-	console.log('wasmBuildName', wasmBuildName)
 	const indexFile = wasmBuildName.replace('.wasm', '.js');
 	try {
 		const options = (0, _options.loadOptions)(this);
