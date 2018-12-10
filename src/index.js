@@ -9,7 +9,7 @@ const path = require('path');
 const tmp = require('tmp');
 const rimraf = require('rimraf');
 const md5 = require("md5");
-
+const glob = require('glob');
 const tmpDir = _bluebird.promisify(tmp.dir);
 const readFile = _bluebird.promisify(fs.readFile);
 const writeFile = _bluebird.promisify(fs.writeFile);
@@ -377,12 +377,12 @@ async function createBuildWasmName(resourcePaths, content) {
 }
 
 function getResourcePaths(resourcePath, resourceQuery) {
-	const paths = [];
-	paths.push(resourcePath);
+	// paths.push(resourcePath);
+	let paths = glob.sync(`${resourcePath}/../**/*.c`);
 	const params = resourceQuery.split('embed=');
-	params[params.length - 1].split(',').forEach(file => {
-		if (file) {
-			paths.push(path.resolve('./', file))
+	params[params.length - 1].split(',').forEach(dir => {
+		if (dir) {
+			paths = paths.concat(glob.sync(`${path.resolve(`${resourcePath}/../`, `${dir}`)}/**/*c`));
 		}
 	});
 	return paths;

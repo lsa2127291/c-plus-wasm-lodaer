@@ -1,4 +1,4 @@
-import wasm from './hello.c?embed=./add.c,./add1.c'
+import wasm from './hello?embed=../add'
 wasm.init().then(function(mod) {
     const memory = mod.memoryManager
     const arr = memory.malloc(20, 'i32')
