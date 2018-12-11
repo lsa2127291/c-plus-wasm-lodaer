@@ -29,7 +29,7 @@ module.exports = {
                     memoryClass: true, // disable javascript memory management class,
                     // fetchFiles: true,
                     // asmJs: true,
-                    totalMemory: 16777216,
+                    totalMemory: 16777216 * 8,
                     // wasm: false,
                     fullEnv: true
                 }
