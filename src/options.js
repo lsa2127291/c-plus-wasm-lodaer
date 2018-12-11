@@ -25,6 +25,7 @@ function loadOptions(loader) {
     memoryClass: typeof options.memoryClass === "undefined" ? true : options.memoryClass,
     fetchFiles: typeof options.fetchFiles === "undefined" ? false : options.fetchFiles,
     asmJs: typeof options.asmJs === "undefined" ? false : options.asmJs,
-    fullEnv: typeof options.fullEnv === "undefined" ? false : options.fullEnv
+    fullEnv: typeof options.fullEnv === "undefined" ? false : options.fullEnv,
+    totalMemory: typeof options.totalMemory === 'undefined' ? 16777216 : options.totalMemory
   };
 }

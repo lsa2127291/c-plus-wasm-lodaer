@@ -483,7 +483,8 @@ exports.default = async function loader(content) {
 		let wasmContent = "";
 		let wasmFileName = "index.wasm";
 		if (buildWASM) {
-			let wasmFlags = [...resourcePaths, '-s', 'WASM=1', '-s', `TOTAL_MEMORY=${options.totalMemory || '16777216'}`, "-s", "BINARYEN=1", this.minimize ? "-Os" : "-O1"];
+			console.log('totalMemory', options.totalMemory)
+			let wasmFlags = [...resourcePaths, '-s', 'WASM=1', '-s', `TOTAL_MEMORY=${options.totalMemory}`, "-s", "BINARYEN=1", this.minimize ? "-Os" : "-O1"];
 
 			if (options.emccFlags && typeof options.emccFlags === "function") {
 				wasmFlags = options.emccFlags(wasmFlags, "wasm");
