@@ -3,7 +3,7 @@
     "description": "fixed bugs of cpp-wasm-loader",
     "author": "lsa2127291",
     "license": "MIT",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "keywords": [
         "wasm",
         "webpack",
