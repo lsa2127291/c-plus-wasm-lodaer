@@ -1,7 +1,7 @@
 # CPP to WASM Webpack Loader
 
 ## Base On cpp-wasm-loader
-;CPP to WASM Webpack Loader](https://www.npmjs.com/package/cpp-wasm-loader)
+[CPP to WASM Webpack Loader](https://www.npmjs.com/package/cpp-wasm-loader)
 
 ## Installation
 Run `npm i c-plus-wasm-loader --save-dev`.
